@@ -1,6 +1,6 @@
 # Startpage
-Forked from https://github.com/kencx
-[Live Preview](https://kencx.github.io/startpage/)
+
+[Live Preview](https://najmossalahin.github.io/startpage/)
 
 Feel free to fork and make your own changes!
 
