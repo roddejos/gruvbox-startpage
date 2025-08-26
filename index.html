@@ -17,7 +17,7 @@
 
         <div class="right-container">
             <div class="head">
-                <p>> cd ~/<span class="blinking">_</span></p>
+                <p>> cd <input type="text" id="search" placeholder="~/" /><span id="cursor"></span></p>
             </div>
 
             <div class="bookmarks">
@@ -25,7 +25,7 @@
                     <div class="links">
                         <li class="title">work</li>
                         <li><a href="https://gmail.com">gmail</a></li>
-                        <li><a href="https://drive.google.com">drive</a></li>
+                        <li><a href="https://drive.google.com">outlook</a></li>
                         <li><a href="https://smwdbulacan.gov.ph/">smwd site</a></li>
                         <li><a href="https://vim.rtorr.com/">vim</a></li>
                     </div>
@@ -64,5 +64,72 @@
         </div>
     </div>
 </body>
+
+<script>
+const search = document.getElementById('search');
+const cursor = document.getElementById('cursor');
+
+// ENTER KEY HANDLER
+search.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+        let query = this.value.trim().toLowerCase();
+        let links = document.querySelectorAll('.bookmarks a');
+        let found = false;
+
+        links.forEach(link => {
+            if (link.textContent.toLowerCase() === query) {
+                window.location.href = link.href;
+                found = true;
+            }
+        });
+
+        if (!found && query) {
+            window.location.href = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+        }
+    }
+});
+
+// CURSOR POSITION HANDLING
+function updateCursor() {
+    const caretPos = search.selectionStart || 0;
+    const style = getComputedStyle(search);
+    let textUntilCaret;
+
+    // If empty, cursor starts right after "~/"
+    if (search.value.length > 0) {
+        textUntilCaret = search.value.substring(0, caretPos);
+    } else {
+        textUntilCaret = "~/"; // Terminal-like prompt offset
+    }
+
+    const textWidth = getTextWidth(textUntilCaret, style);
+    cursor.style.transform = `translateX(${textWidth}px)`;
+}
+
+function getTextWidth(text, style) {
+    const canvas = getTextWidth.canvas || (getTextWidth.canvas = document.createElement("canvas"));
+    const context = canvas.getContext("2d");
+    context.font = `${style.fontSize} ${style.fontFamily}`;
+    return context.measureText(text).width;
+}
+
+search.addEventListener('input', updateCursor);
+search.addEventListener('click', updateCursor);
+search.addEventListener('keydown', () => setTimeout(updateCursor, 0));
+
+// Animate cursor style while typing
+let typingTimer;
+search.addEventListener('input', () => {
+    cursor.style.height = "100%"; // Block while typing
+    clearTimeout(typingTimer);
+    typingTimer = setTimeout(() => {
+        cursor.style.height = "4px"; // Underline after idle
+    }, 1000);
+});
+
+// Initial position
+updateCursor();
+</script>
+
 
 </html>

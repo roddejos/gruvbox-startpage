@@ -111,3 +111,28 @@ a:hover {
     opacity: 1;
   }
 }
+
+
+
+
+.head input {
+  background: transparent;
+  border: none;
+  color: var(--color-fg);
+  font-family: "Fira Code", monospace !important;
+  font-size: 40px;
+  width: auto; /* Allow dynamic width */
+  outline: none;
+}
+
+#cursor {
+  position: relative;
+  display: none;
+  width: 1ch;
+  height: 4px;
+  background: var(--color-fg);
+  animation: blink 1s steps(1) infinite;
+  vertical-align: bottom;
+}
+
+
