@@ -41,6 +41,7 @@ html, body {
 .gif img {
   max-width: 100%;
   max-height: 100%;
+  border-radius: 10px; 
 }
 
 .head {
